@@ -1,7 +1,8 @@
 Packaging & Deploying Containerized Web App on GKE
-TRIGGERS:
-------------
-- Docker Autobuild triggers a new build with every git push to this repository.
+
+NOTE: Docker Autobuild triggers a new build with every git push to this repository.
+----------------------------------------------------------------------------
+
 
 Overview
 ---------
