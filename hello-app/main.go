@@ -1,28 +1,39 @@
-/**
- * Copyright 2017 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
-// [START all]
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 )
+
+// User is a github user information
+type User struct {
+	Name        string `json:"name"`
+	PublicRepos int    `json:"public_repos"`
+}
+
+// userInfo return information on github user
+func userInfo(login string) (*User, error) {
+	// HTTP call
+	url := fmt.Sprintf("https://api.github.com/users/%s", login)
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	// Decode JSON
+	user := &User{}
+	dec := json.NewDecoder(resp.Body)
+	if err := dec.Decode(user); err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
 
 func main() {
 	// use PORT environment variable, or default to 8080
@@ -39,6 +50,15 @@ func main() {
 	log.Printf("Server listening on port %s", port)
 	err := http.ListenAndServe(":"+port, server)
 	log.Fatal(err)
+
+
+	//github
+	// user, err := userInfo("tebeka")
+	// if err != nil {
+	// 	log.Fatalf("error: %s", err)
+	// }
+
+	// fmt.Printf("%+v\n", user)
 }
 
 // hello responds to the request with a plain-text "Hello, world" message.

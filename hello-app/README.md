@@ -67,6 +67,28 @@ LOAD BALANCE & EXPOSE TO PUBLIC (subject to billing)
 - `kubectl expose deployment #CLUSTERNAME# --type=LoadBalancer --port 80 --target-port 8080`
 
 
+SCALE_UP
+----------
+- `kubectl scale deployment hello-web --replicas=3`
+- Verify: `kubectl get deployment hello-web`
+- Verify: `kubectl get pods`
+
+
+
+NEW VERSION DEPLYMENT
+-----------------------
+- `docker build --tag=gcr.io/#PROJECT_ID#/#APP_FOLDER#:v2 .`
+- `docker push gcr.io/#PROJECT_ID#/#APP_FOLDER#:v2`
+- `kubectl set image deployment/#CLUSTERNAME# #APP_FOLDER#=gcr.io/#PROJECT_ID#/#APP_FOLDER#:v2`
+
+- VERIFY: http://[EXTERNAL_IP]
+
+
+CLEANUP
+----------
+- rm service: `kubectl delete service hello-web`
+- rm cluster: `gcloud container clusters delete hello-cluster`
+
 
 TODO: 
 ---------------
