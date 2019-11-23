@@ -7,7 +7,7 @@ REMINDER: AUTOBUILD ENABLED.
  * NODE | NODE | ...
 >NODE
 * Kubelet
-* Kube Proxy
+* Kube Proxy :<<:<-- USER POC
 * {Pods}
 
 ----------------------------------------------------------------------------
@@ -45,6 +45,13 @@ GKE CLUSTER NODE GENERATION (CLUSTERPHOBIC)
 --------------------
 * `kubectl run CLUSTERPHOBIC --image=gcr.io/A/B:v1 --port 80`
 * `kubectl get pods`
+*  Load Balance w/ Ingress >> Expose IP 
+
+**ASSUMING: Network Load Balance (TCP XOR UDP)**
+>(1.Seattle 2.NYC 3.London)
+-  When a user in London connects into the U.S. West backend, the traffic ingresses closest to London, because the range is anycasted. 
+- You need to forward the original packets unproxied && response is directly sent back to user. (!= ingress route)
+- NLB uses target pools for session affinity (not backend).
 
 ----------------------------------------------------------------------------
 ========== PREVIOUS DETAILED ROUTE =======
