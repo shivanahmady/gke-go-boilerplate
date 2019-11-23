@@ -35,8 +35,8 @@ DOCKER PACKAGING (V1) & CONTAINER REGISTRY UPLINK
 * `gcloud auth configure-docker` :auth gcloud as cred helper
 * `docker push gcr.io/A/B:v1` 
 
-GKE CLUSTER NODE GENERATION (CLUSTERPHOBIC)
-----------------------
+GKE CLUSTER NODE GENERATION (CLUSTERPHOBIC == a pool of node pools which are essentially a set of MIGs)
+-------------------------------------------
 *  NOTE: Node Image not to be confused with container image (pod scope).
 * `gcloud create deployment CLUSTERPHOBIC --image=gcr.io/A/B:v1`
 *  kubectl auth ---> CLUSTERPHOBIC
@@ -48,6 +48,7 @@ GKE CLUSTER NODE GENERATION (CLUSTERPHOBIC)
 *  Load Balance w/ Ingress >> Expose IP 
 
 **ASSUMING: Network Load Balance (TCP XOR UDP)**
+---------------------------------------------
 >(1.Seattle 2.NYC 3.London)
 -  When a user in London connects into the U.S. West backend, the traffic ingresses closest to London, because the range is anycasted. 
 - You need to forward the original packets unproxied && response is directly sent back to user. (!= ingress route)
