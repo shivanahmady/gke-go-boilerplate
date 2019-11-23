@@ -1,8 +1,54 @@
-Packaging & Deploying Containerized Web App on GKE
 
-NOTE: Docker Autobuild triggers a new build with every git push to this repository.
+REMINDER: AUTOBUILD ENABLED.
+
+**GKE ARCHITECTURE**
+>Master
+ * (API Server: Controller Manager | Scheduler) --- (etcd)
+ * NODE | NODE | ...
+>NODE
+* Kubelet
+* Kube Proxy
+* {Pods}
+
 ----------------------------------------------------------------------------
+==========SIMPLE START=======
+----------------------------------------------------------------------------
+via CLOUD SHELL
+-----------------
+1. (CONFIGURE PROJECT/GIT) 
+    * REMINDER TO-DO: If x1adoc-ml/almightyai/systemctl hive is not enabled, do alt implementation.
 
+2. Set Identifiers
+    * `gcloud config set project #`
+    * `gcloud config set compute/zone us-central1`
+    * `gcloud config set compute/zone us-central1-a`
+
+3. Enable APIs
+    * `gcloud services enable container.googleapis.com`
+    * `gcloud services enable containerregistry.googleapis.com`
+
+4. CLONE GIT REPO > WORKINDIR
+
+DOCKER PACKAGING (V1) & CONTAINER REGISTRY UPLINK
+---------------------------------------------------
+* `docker build -t gcr.io/A/B:v1 .`
+* `gcloud auth configure-docker` :auth gcloud as cred helper
+* `docker push gcr.io/A/B:v1` 
+
+GKE CLUSTER NODE GENERATION (CLUSTERPHOBIC)
+----------------------
+*  NOTE: Node Image not to be confused with container image (pod scope).
+* `gcloud create deployment CLUSTERPHOBIC --image=gcr.io/A/B:v1`
+*  kubectl auth ---> CLUSTERPHOBIC
+
+17:00 Zulu Time
+--------------------
+* `kubectl run CLUSTERPHOBIC --image=gcr.io/A/B:v1 --port 80`
+* `kubectl get pods`
+
+----------------------------------------------------------------------------
+========== PREVIOUS DETAILED ROUTE =======
+----------------------------------------------------------------------------
 
 Overview
 ---------
