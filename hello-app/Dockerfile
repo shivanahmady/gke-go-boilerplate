@@ -1,4 +1,4 @@
-FROM golang:1.8-alpine
+FROM golang:1.16-alpine
 ADD . /go/src/hello-app
 RUN go install hello-app
 
